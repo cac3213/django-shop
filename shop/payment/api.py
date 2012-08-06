@@ -52,8 +52,11 @@ class PaymentAPI(ShopAPI):
     
             # Empty the customers basket, to reflect that the purchase was
             # completed
-            cart_object = Cart.objects.get(user=order.user)
-            cart_object.empty()
+            try:
+                cart_object = Cart.objects.get(user=order.user)
+                cart_object.empty()
+            except Cart.DoesNotExist:
+                pass # the cart has already been removed
 
 
     #==========================================================================
